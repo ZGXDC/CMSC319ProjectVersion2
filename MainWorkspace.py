@@ -77,6 +77,7 @@ def getArtistIDAndGenre(name):
     if not items:
         return None
     
+    #if artists returns no genre, replace genre with unknown
     artist = items[0]
     if not artist["genres"]:
         artist["genres"] = ["uknown"]
@@ -96,17 +97,67 @@ def createArtistInfoList(list):
     artistDictionary = {}
     for name in list:
         name = name.strip()
+        #Skips Blank Entries and prints warning
         if name == "":
             print("Note: skipping blank entry")
             continue
         artistInfo = getArtistIDAndGenre(name)
+        #Warning if match is not returned for an artist
         if artistInfo is None:
             print("Note: no artist found for ",name)
             continue
         else:
             spotifyName = artistInfo["name"]
+            #prevents duplicates
             if spotifyName in artistDictionary:
                 continue
             artistDictionary[spotifyName] = artistInfo
     return artistDictionary
     
+def getTopTracks(dictionary, token):
+    toptracks = {}
+    
+    for name, info in dictionary.items():
+        id = info.get("id")
+        
+        if not id:
+            print("Warning: no id found for ", name)
+            continue
+        
+        url = "https://api.spotify.com/v1/artists/" + id + "/top-tracks?market=US"
+        headers = {"Authorization": f"Bearer {token}"}
+        
+        try:
+            response = requests.get(url, headers=headers)
+        except Exception as e:
+            print("ERROR: ", e)
+        
+        if response.status_code!=200:
+            print("FAILURE to fetch tracks for ", name)
+            toptracks[name] = []
+            continue
+        
+        jsonData = response.json()
+        tracks = jsonData.get("tracks", [])
+        
+        #Returns a warning if artist has no top tracks
+        if not tracks:
+            print("Warning: no tracks found for ", name)
+            toptracks[name] = []
+            continue
+        
+        #From Top Track Info, gets id, name, and album and puts it into one object
+        #gets this from all top tracks 
+        tracksInfo = []
+        for t in tracks:
+            tracksInfo.append({
+                "id": t.get("id"),
+                "name": t.get("name"),
+                "album": t.get("album", {}).get("name")
+            })
+        #sets the artist name key value pair to be the 
+        toptracks[name] = tracksInfo
+    return toptracks
+    
+list = ["Olivia Dean", "Michael Jackson"]
+print(getTopTracks(createArtistInfoList(list), getAccessToken()))
