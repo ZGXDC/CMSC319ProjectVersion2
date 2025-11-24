@@ -11,6 +11,7 @@ This is microservices project written in Python as part of the CMSC 319 Intro to
 1. Clone the Repository
 2. Create your own virtual environment
 3. Install dependencies 
+
 Follow these instructions to install dependencies:
 - run pip install -r requirements.txt in terminal
 4. Create a .env file by copying a provided one into the root directory or creating your own. 
