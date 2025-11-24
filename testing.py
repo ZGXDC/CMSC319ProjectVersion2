@@ -2,7 +2,7 @@
 import requests
 from dotenv import load_dotenv
 import os
-from MainWorkspace import getAccessToken, getArtistIDAndGenre
+from MainWorkspace import getAccessToken, getArtistIDAndGenre, createArtistInfoList
 
 load_dotenv()
 
@@ -59,7 +59,26 @@ def testGetArtistIDAndGenre():
     print(getArtistIDAndGenre(""))
     print(getArtistIDAndGenre("??"))
   
+def testCreateArtistInfoList():
+    failure = False
+    list = ["Taylor Swift", "Dua Lipa"]
+    if len(createArtistInfoList(list))!=2:
+        print("ERROR: not a complete list")
+        failure = True
 
+    list = ["Dua Lipa", "Dua Lipa"]
+    if len(createArtistInfoList(list))!=1:
+        print("ERROR: artists duplicated")
+        failure = True
+    
+    list = ["\n", "", "     ", "\t"]
+    if len(createArtistInfoList(list))!=0:
+        print("ERROR: blanks not proccessed correctly")
+        failure = True
+    
+    if failure ==False:
+        print("tests passed")
+    
 #PRINTING UNIT TESTS
 print("UNIT TESTS\n")
 
@@ -71,3 +90,6 @@ testGetAccessToken()
 
 print("\nTests for getArtistIdAndGenre")
 testGetArtistIDAndGenre()
+
+print("\n Tests for CreateArtistInfoList")
+testCreateArtistInfoList()

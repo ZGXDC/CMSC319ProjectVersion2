@@ -78,6 +78,9 @@ def getArtistIDAndGenre(name):
         return None
     
     artist = items[0]
+    if not artist["genres"]:
+        artist["genres"] = ["uknown"]
+    
     artistInfo = {
         "id": artist["id"],
         "name": artist["name"],
@@ -85,3 +88,25 @@ def getArtistIDAndGenre(name):
     }
     return artistInfo
 
+#METHOD creatArtistInfoList
+# creates a dictionary of artistInfo based on user input list of artists
+# calls on getArtistIdAndGenre method
+# accepts a list object of artists and returns a dictionary
+def createArtistInfoList(list):
+    artistDictionary = {}
+    for name in list:
+        name = name.strip()
+        if name == "":
+            print("Note: skipping blank entry")
+            continue
+        artistInfo = getArtistIDAndGenre(name)
+        if artistInfo is None:
+            print("Note: no artist found for ",name)
+            continue
+        else:
+            spotifyName = artistInfo["name"]
+            if spotifyName in artistDictionary:
+                continue
+            artistDictionary[spotifyName] = artistInfo
+    return artistDictionary
+    
