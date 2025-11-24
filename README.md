@@ -20,10 +20,13 @@ Follow these instructions to create a .env file:
 - Name the file .env
 - The file should have two variables, namely clientID and clientSecret
 - Set those variables equal to your own credentials from the Spotify Developer Website
-- view env.example for a better understanding
+- view .env.example for a better understanding
 5. Run the project
 
 ## Dependencies
 - Python 3.12+
 - python-dotenv
 - requests
+
+## Testing
+testing.py provides a suite of unit tests and integration tests for the code. 
