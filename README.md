@@ -20,6 +20,7 @@ Follow these instructions to create a .env file:
 - Name the file .env
 - The file should have two variables, namely clientID and clientSecret
 - Set those variables equal to your own credentials from the Spotify Developer Website
+- view env.example for a better understanding
 5. Run the project
 
 ## Dependencies
