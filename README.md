@@ -12,12 +12,14 @@ This is microservices project written in Python as part of the CMSC 319 Intro to
 2. Create your own virtual environment
 3. Install dependencies using pip install -r requirements.txt
 4. Create a .env file by copying a provided one into the root directory or creating your own. 
+
+Follow these instructions to create a .env file:
 - Name the file .env
 - The file should have two variables, namely clientID and clientSecret
 - Set those variables equal to your own credentials from the Spotify Developer Website
 5. Run the project
 
 ## Dependencies
-1. Python 3.12+
-2. python-dotenv
-3. requests
+- Python 3.12+
+- python-dotenv
+- requests
