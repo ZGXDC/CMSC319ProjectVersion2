@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+
+#My Virtual environment will not be in gitHub
+.venv/
+venv/
+
+#clientID and clientSecret will not be in GitHub
+.env
+
+.vscode/
