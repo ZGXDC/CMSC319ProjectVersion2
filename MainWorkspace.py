@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 import os
 import base64
 import requests
+import random
 
 #METHOD getAccessToken
 # makes a post request to Spotify Web API url https://accounts.spotify.com/api/token
@@ -80,7 +81,7 @@ def getArtistIDAndGenre(name):
     #if artists returns no genre, replace genre with unknown
     artist = items[0]
     if not artist["genres"]:
-        artist["genres"] = ["uknown"]
+        artist["genres"] = ["unknown"]
     
     artistInfo = {
         "id": artist["id"],
@@ -113,7 +114,11 @@ def createArtistInfoList(list):
                 continue
             artistDictionary[spotifyName] = artistInfo
     return artistDictionary
-    
+
+#METHOD getTopTracks
+# creates a dictionary of each artist's top songs based on dictionary of artists info
+# uses HTTP Get to spotify URL to get top songs for each listed artist
+# appends the song id, name, and album to a list and finally puts that in a dicitionary paired with the artist name
 def getTopTracks(dictionary, token):
     toptracks = {}
     
@@ -158,6 +163,69 @@ def getTopTracks(dictionary, token):
         #sets the artist name key value pair to be the 
         toptracks[name] = tracksInfo
     return toptracks
+
+#METHOD getGenreFromMood
+def getGenreFromMood(userMood):
     
-list = ["Olivia Dean", "Michael Jackson"]
-print(getTopTracks(createArtistInfoList(list), getAccessToken()))
+    moods = {
+        "happy": ["pop", "dance pop", "electropop", "indie pop", "viral pop", "motown", "funk", "hip hop", "pop rap", "pop soul", "acoustic", "indie"],
+        "sad": ["indie", "acoustic", 'singer-songwriter', "classic rock", "folk rock", "psychedelic rock", "soul", "neo soul", "classical", "orchestral", "trap", "modern rock", "soul blues"],
+        "angry": ["rock", "metal", "alt-metal", "modern rock", "death metal", "pop rap", "trap"],
+        "chill": ["lofi", "ambient", "chillhop", "soul", "neo soul", "rnb", "soul blues", "pop soul", "classic rock", "acoustic"]
+    }
+    
+    userMood = userMood.strip()
+    userMood = userMood.lower()
+    
+    if userMood not in moods:
+        return None
+    
+    return moods[userMood]
+
+#METHOD validArtist
+def validArtist(artistGenres, moodGenres):
+    for genre in moodGenres:
+        for g in artistGenres:
+            if g in genre:
+                return True
+    return False
+
+#METHOD matchArtistsToMood
+def artistsToInclude(genres, artists):
+    toInclude = {}
+    
+    for name, info in artists.items():
+        if "unknown" in info["genres"]:
+            toInclude[name] = info
+        else:
+            if validArtist(info["genres"], genres):
+                toInclude[name] = info
+    
+    #if no artists match, return all artists
+    if not toInclude:
+        return artists
+    else:
+        return toInclude
+
+#METHOD buildPlaylist
+def buildPlaylist(topTracks, trackNum=3):
+    playlist = []
+    artistOrder = []
+    for name, tracks in topTracks.items():
+        numIncluded = min(trackNum, len(tracks))
+        for i in range(numIncluded):
+            artistOrder.append(name)
+            playlist.append(tracks[i])
+            
+    return playlist, artistOrder
+    
+def printPlaylist(playlist, order):
+    print("\nHere's your playlist!\n")
+    i=0
+    for track in playlist:
+        print(track["name"], "--", order[i])
+        i+=1
+
+list = ["Taylor Swift", "Vitamin String Quartet", "AC/DC", "Al Green"]
+playlist, order = buildPlaylist(getTopTracks(artistsToInclude(["indie", "acoustic", 'singer-songwriter', "classic rock", "folk rock", "psychedelic rock", "soul", "neo soul", "classical", "orchestral", "trap", "modern rock", "soul blues"],createArtistInfoList(list)), getAccessToken()))
+printPlaylist(playlist, order)

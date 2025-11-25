@@ -2,7 +2,7 @@
 import requests
 from dotenv import load_dotenv
 import os
-from MainWorkspace import getAccessToken, getArtistIDAndGenre, createArtistInfoList
+from MainWorkspace import getAccessToken, getArtistIDAndGenre, createArtistInfoList, getTopTracks
 
 load_dotenv()
 
@@ -79,6 +79,54 @@ def testCreateArtistInfoList():
     if failure ==False:
         print("tests passed")
     
+def testGetTopTracks():
+    failure = False
+    
+    #valid artists
+    artists = {
+        "Olivia Dean": {"id": "00x1fYSGhdqScXBRpSj3DW"}
+    }
+    
+    tracks = getTopTracks(artists, getAccessToken())
+    if len(tracks) != 1:
+        print("ERROR: valid artist failed")
+        failure=True
+    
+    #missing ID
+    artists = {
+        "The Beatles": {}
+    }
+    tracks = getTopTracks(artists, getAccessToken())
+    if tracks != {}:
+        print("ERROR: missing ID ")
+        failure = True
+        
+    #API failure
+    artists = {
+        "Nirvana": {"id": "1"}
+    }
+    tracks = getTopTracks(artists, getAccessToken())
+    if tracks["Nirvana"] != []:
+        print("ERROR: api failure")
+        failure = True
+        
+    #No Tracks
+    artists = {
+        "AC/DC": {"id": ""}
+    }
+    tracks = getTopTracks(artists, getAccessToken())
+    print(tracks)
+    if tracks != {}:
+        print("ERROR: blank id")
+        failure = True
+    
+    if failure==False:
+        print("All tests passed")
+    
+    #3fMbdgg4jU18AjLCKBhRSm
+
+#testing unit tests for mood
+#blank, sad, SAd, spaces sad, 
 #PRINTING UNIT TESTS
 print("UNIT TESTS\n")
 
@@ -93,3 +141,6 @@ testGetArtistIDAndGenre()
 
 print("\n Tests for CreateArtistInfoList")
 testCreateArtistInfoList()
+
+print("\nTests for Top Tracks")
+testGetTopTracks()

@@ -1,10 +1,11 @@
 # Welcome to Spotify Mood Playlist Generator!
 
-This is microservices project written in Python as part of the CMSC 319 Intro to Software Engineering Class. This project ideally generates a playlist for users based on user-input mood and artists. It access the Spotify Web API and matches songs based on user input, ultimately outputting them for the user. 
+This is microservices project written in Python as part of the CMSC 319 Software Engineering Concepts Class. This project ideally generates a playlist for users based on user-input mood and artists. It access the Spotify Web API and matches songs based on user input, ultimately outputting them for the user. 
 
 ## Features 
 - Input a mood and favorite artists
-- Maps user prefernces to songs from Spotify Web API
+- Maps mood to a list of genres and genres to favorite artists
+- Selects popular songs from artists
 - Outputs the list of tracks
 
 ## Run Instructions
