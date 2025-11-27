@@ -2,7 +2,8 @@
 import requests
 from dotenv import load_dotenv
 import os
-from MainWorkspace import getAccessToken, getArtistIDAndGenre, createArtistInfoList, getTopTracks
+from MainWorkspace import getAccessToken, getArtistIDAndGenre, createArtistInfoList, getTopTracks, getGenreFromMood
+from MainWorkspace import validArtist
 
 load_dotenv()
 
@@ -125,6 +126,62 @@ def testGetTopTracks():
     
     #3fMbdgg4jU18AjLCKBhRSm
 
+def testGetGenreFromMood():
+    failure = False
+    #regular
+    genres = getGenreFromMood("sad")
+    
+    if not genres:
+        print("ERROR: returned nothing")
+        failure = True
+    #blank
+    genres = getGenreFromMood("")
+    if genres:
+        print("ERROR: returned for a blank")
+        failure = True
+    
+    #odd spelling
+    genres = getGenreFromMood("SaD")
+    if not genres:
+        print("ERROR: didn't return for odd spelling")
+        failure = True
+    
+    #added spaces 
+    genres = getGenreFromMood("        sAD")
+    if not genres:
+        print("didn't return for added spaces")
+        failure = True
+    
+    if failure==False:
+        print("All tests passed")
+            
+def testValidArtist():
+    failure =False
+    #normal
+    artistGenres = ["pop", "pop soul", "motown", "soul"] 
+    moodGenres = ["pop", "dance pop", "electropop", "indie pop", "viral pop", "motown", "funk", "hip hop", "pop rap", "pop soul", "acoustic", "indie"]
+    validity = validArtist(artistGenres, moodGenres)
+    if validity ==False:
+        print("ERROR on good input")
+        failure = True
+        
+        
+    #bad input
+    artistGenres = ["metal", "modern rock", "blues"]
+    validity = validArtist(artistGenres, moodGenres)
+    if validity == True:
+        print("ERROR returned true on bad input")
+        failure = True
+        
+    #blank
+    artistGenres = []
+    validity = validArtist(artistGenres, moodGenres)
+    if validity == True:
+        print("ERROR: returned true on blank input")
+    
+    if failure ==False:
+        print("all tests passed")
+    
 #testing unit tests for mood
 #blank, sad, SAd, spaces sad, 
 #PRINTING UNIT TESTS
@@ -144,3 +201,9 @@ testCreateArtistInfoList()
 
 print("\nTests for Top Tracks")
 testGetTopTracks()
+
+print("\nTests for GetGenreFromMood")
+testGetGenreFromMood()
+
+print("\nTests for Valid Artist")
+testValidArtist()

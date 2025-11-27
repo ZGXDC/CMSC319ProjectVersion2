@@ -165,6 +165,10 @@ def getTopTracks(dictionary, token):
     return toptracks
 
 #METHOD getGenreFromMood
+#takes a user input mood and returns a list of genres associated with that mood
+#parameter userMood is the input mood from the user
+#method has a dictionary of moods associated with a list of genres. 
+#method formats the input and maps it to the dictionary and returns none if the mood is not found or the associated genres
 def getGenreFromMood(userMood):
     
     moods = {
@@ -183,6 +187,8 @@ def getGenreFromMood(userMood):
     return moods[userMood]
 
 #METHOD validArtist
+#accepts a list of artistGenres and a list of moodGenres
+#returns a boolean. Returns true if one of the artis's genres matches a moodGenre and false if otherwise
 def validArtist(artistGenres, moodGenres):
     for genre in moodGenres:
         for g in artistGenres:
@@ -226,6 +232,6 @@ def printPlaylist(playlist, order):
         print(track["name"], "--", order[i])
         i+=1
 
-list = ["Taylor Swift", "Vitamin String Quartet", "AC/DC", "Al Green"]
+list = ["The Police", "Dominic Fike", "The Supremes", "Avril Lavigne"]
 playlist, order = buildPlaylist(getTopTracks(artistsToInclude(["indie", "acoustic", 'singer-songwriter', "classic rock", "folk rock", "psychedelic rock", "soul", "neo soul", "classical", "orchestral", "trap", "modern rock", "soul blues"],createArtistInfoList(list)), getAccessToken()))
 printPlaylist(playlist, order)
