@@ -1,6 +1,7 @@
 # Welcome to Spotify Mood Playlist Generator!
 
 This is microservices project written in Python as part of the CMSC 319 Software Engineering Concepts Class. This project ideally generates a playlist for users based on user-input mood and artists. It access the Spotify Web API and matches songs based on user input, ultimately outputting them for the user. 
+The program is built in one main program titled MainWorkspace.py. This program has a series of methods that attempt to perform just one function, acting as the services aspect of the microservices project. 
 
 ## Features 
 - Input a mood and favorite artists
@@ -31,3 +32,6 @@ Follow these instructions to create a .env file:
 
 ## Testing
 testing.py provides a suite of unit tests and integration tests for the code. 
+Includes a series of unit tests for methods (services) that do not rely on HTTP requests or other methods. 
+
+Integration Tests are written for methods use HTTP requests since they rely on the workings of an external API. In addition, integeration tests are provided for methods that call another method internally. 

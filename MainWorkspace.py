@@ -9,7 +9,6 @@ import random
 # using clientID and clientSecret credentials
 # Uses Client Credentials Flow
 # - accepts no parameters, returns an access token
-
 def getAccessToken():
     clientID = os.getenv("clientID")
     clientSecret = os.getenv("clientSecret")
@@ -160,7 +159,7 @@ def getTopTracks(dictionary, token):
                 "name": t.get("name"),
                 "album": t.get("album", {}).get("name")
             })
-        #sets the artist name key value pair to be the 
+        #sets the artist name key value pair to be the track info
         toptracks[name] = tracksInfo
     return toptracks
 
@@ -196,7 +195,12 @@ def validArtist(artistGenres, moodGenres):
                 return True
     return False
 
-#METHOD matchArtistsToMood
+#METHOD artistsToInclude
+#accepts parameters genres, a list of strings representing music genres, and artists, a dictionary representing the artists info
+#loop through each genre in genres and each genre in the listed artist's info
+#builds a dictionary of artists that will be included in the playlist, with their name linked to a key value of the artist's information
+#if the artist's genre is unknown, automatically included in the list
+#otherwise, calls the validArtist method. If true, the artist is included, if false, do not include
 def artistsToInclude(genres, artists):
     toInclude = {}
     
@@ -214,6 +218,11 @@ def artistsToInclude(genres, artists):
         return toInclude
 
 #METHOD buildPlaylist
+#takes 2 parameters topTracks, dictionary of the top Tracks of artists to be included in the playlist and trackNum, numbers of tracks from each artist to include in the playlist
+#creates two lists, playlist which is a list of song titles and artistOrder which is the order in which the artists appear
+#get the list of tracks from each artist, finds the minimum number of songs to be included in the case an artist has less than 3 top songs
+#iterates and includes the first songs from the top tracks
+#returns the playlist and artistOrder lists
 def buildPlaylist(topTracks, trackNum=3):
     playlist = []
     artistOrder = []
@@ -224,7 +233,9 @@ def buildPlaylist(topTracks, trackNum=3):
             playlist.append(tracks[i])
             
     return playlist, artistOrder
-    
+
+#METHOD printPlaylist
+#iterates through the playlist and artistOrder, printing the song name and the artist
 def printPlaylist(playlist, order):
     print("\nHere's your playlist!\n")
     i=0
