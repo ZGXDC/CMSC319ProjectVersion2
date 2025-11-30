@@ -221,16 +221,25 @@ def artistsToInclude(genres, artists):
 #takes 2 parameters topTracks, dictionary of the top Tracks of artists to be included in the playlist and trackNum, numbers of tracks from each artist to include in the playlist
 #creates two lists, playlist which is a list of song titles and artistOrder which is the order in which the artists appear
 #get the list of tracks from each artist, finds the minimum number of songs to be included in the case an artist has less than 3 top songs
-#iterates and includes the first songs from the top tracks
+#iterates and includes random songs from the top tracks
 #returns the playlist and artistOrder lists
 def buildPlaylist(topTracks, trackNum=3):
     playlist = []
     artistOrder = []
+    chosenTracks = []
     for name, tracks in topTracks.items():
+        chosenTracks = []
         numIncluded = min(trackNum, len(tracks))
+        if numIncluded>3:
+            numIncluded = 3
+        lenTracks = len(tracks)
         for i in range(numIncluded):
             artistOrder.append(name)
-            playlist.append(tracks[i])
+            trackNum = random.randint(0, lenTracks-1)
+            while(trackNum in chosenTracks):
+                trackNum = random.randint(0, lenTracks-1)
+            playlist.append(tracks[trackNum])
+            chosenTracks.append(trackNum)
             
     return playlist, artistOrder
 
@@ -243,6 +252,32 @@ def printPlaylist(playlist, order):
         print(track["name"], "--", order[i])
         i+=1
 
-list = ["The Police", "Dominic Fike", "The Supremes", "Avril Lavigne"]
-playlist, order = buildPlaylist(getTopTracks(artistsToInclude(["indie", "acoustic", 'singer-songwriter', "classic rock", "folk rock", "psychedelic rock", "soul", "neo soul", "classical", "orchestral", "trap", "modern rock", "soul blues"],createArtistInfoList(list)), getAccessToken()))
-printPlaylist(playlist, order)
+
+validMood = False
+print("Welcome to Spotify Mood Playlist Generator!")
+print("\nPlaylists can be built from the following moods: happy, sad, angry, chill")
+
+#Inputting mood
+while(validMood==False):
+    print("\nPlease input a mood (ex: happy): ")
+    userMood = input()
+
+    if userMood.strip() != "" and getGenreFromMood(userMood)!=None:
+        validMood = True
+
+print("\nPlease input a list of five favorite music artists:\nInput your artist after the colon (ex. Artist 1: Nirvana)")
+artistInput = 0
+userFavArtists = []
+while(artistInput<5):
+    print("Artist",artistInput+1, ": ", end='')
+    userFavArtists.append(input())
+    artistInput+=1
+
+infoList = createArtistInfoList(userFavArtists)
+moodGenres = getGenreFromMood(userMood)
+includedArtists = artistsToInclude(moodGenres, infoList)
+topTracks = getTopTracks(includedArtists, getAccessToken())
+playlist, artistOrder = buildPlaylist(topTracks)
+printPlaylist(playlist, artistOrder)
+
+
