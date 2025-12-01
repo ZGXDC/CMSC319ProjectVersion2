@@ -23,8 +23,6 @@ def getAccessToken():
     headers = {
         "Authorization": f"Basic {b64AuthString}",
     }
-    print("URL:", url)
-    print("Headers:", json.dumps(headers, indent=4))
     data = {
         "grant_type": "client_credentials"
     }
@@ -36,7 +34,6 @@ def getAccessToken():
         print("ERROR: ", e)
         print(response.text)
         
-    print(json.dumps(response.json(), indent=4))
     if response.status_code !=200:
         raise Exception(response.status_code)
    
@@ -232,7 +229,7 @@ def buildPlaylist(topTracks, trackNum=3):
     for name, tracks in topTracks.items():
         chosenTracks = []
         numIncluded = min(trackNum, len(tracks))
-        if numIncluded>3:
+        if numIncluded>3 or (numIncluded<3 and len(tracks)>=3):
             numIncluded = 3
         lenTracks = len(tracks)
         for i in range(numIncluded):
@@ -254,6 +251,15 @@ def printPlaylist(playlist, order):
         print(track["name"], "--", order[i])
         i+=1
 
+def printToFile(playlist, order, mood, artists):
+    with open("playlist.txt", "w") as file:
+        print("\nHere's your playlist!\n", file = file)
+        print(f"Mood: {mood}\nArtists: {artists}\n", file=file)
+        i=0
+        for track in playlist:
+            print(track["name"], "--", order[i], file = file)
+            i+=1
+        print("\n Playlist has also been written to playlist.txt")
 # ------------------------------------------------------------------------------------
 validMood = False
 print("Welcome to Spotify Mood Playlist Generator!")
@@ -282,4 +288,4 @@ includedArtists = artistsToInclude(moodGenres, infoList)
 topTracks = getTopTracks(includedArtists, getAccessToken())
 playlist, artistOrder = buildPlaylist(topTracks)
 printPlaylist(playlist, artistOrder)
-
+printToFile(playlist, artistOrder, userMood, userFavArtists)
