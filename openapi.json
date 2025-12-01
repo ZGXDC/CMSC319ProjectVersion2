@@ -1,0 +1,177 @@
+{
+    "spotifyAPICalls": {
+    "searchArtists": {
+        "description": "uses artist's name to get artist genre and id from spotify",
+        "endpoint": "GET https://api.spotify.com/v1/search",
+        "request":{
+            "url": "https://api.spotify.com/v1/search",
+            "headers": {
+                 "Authorization": "Bearer <ACCESS-TOKEN>"
+            },
+            "parameters": {
+                "q": "Nirvana",
+                "type": "artist",
+                "limit": 1
+        }
+    },
+        "response": {
+        "artists": {
+        "href": "https://api.spotify.com/v1/search?offset=0&limit=1&query=Nirvana&type=artist",
+        "limit": 1,
+        "next": "https://api.spotify.com/v1/search?offset=1&limit=1&query=Nirvana&type=artist",
+        "offset": 0,
+        "previous": null,
+        "total": 899,
+        "items": [
+            {
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/artist/6olE6TJLqED3rqDCT0FyPh"
+                },
+                "followers": {
+                    "href": null,
+                    "total": 23646139
+                },
+                "genres": [
+                    "grunge",
+                    "rock"
+                ],
+                "href": "https://api.spotify.com/v1/artists/6olE6TJLqED3rqDCT0FyPh",
+                "id": "6olE6TJLqED3rqDCT0FyPh",
+                "images": [
+                    {
+                        "url": "https://i.scdn.co/image/84282c28d851a700132356381fcfbadc67ff498b",
+                        "height": 1057,
+                        "width": 1000
+                    },
+                    {
+                        "url": "https://i.scdn.co/image/a4e10b79a642e9891383448cbf37d7266a6883d6",
+                        "height": 677,
+                        "width": 640
+                    },
+                    {
+                        "url": "https://i.scdn.co/image/42ae0f180f16e2f21c1f2212717fc436f5b95451",
+                        "height": 211,
+                        "width": 200
+                    },
+                    {
+                        "url": "https://i.scdn.co/image/e797ad36d56c3fc8fa06c6fe91263a15bf8391b8",
+                        "height": 68,
+                        "width": 64
+                    }
+                ],
+                "name": "Nirvana",
+                "popularity": 83,
+                "type": "artist",
+                "uri": "spotify:artist:6olE6TJLqED3rqDCT0FyPh"
+            }
+        ]
+    }
+}
+
+    },
+    "getTopTracks": {
+        "description": "takes a dictionary of artists' info and an access token and gets the top tracks of each artist",
+        "endpoint": "GET https://api.spotify.com/v1/artists/{id}/top-tracks",
+        "requests": {
+            "url": "https://api.spotify.com/v1/artists/3WrFJ7ztbogyGnTHbHJFl2/top-tracks?market=US",
+            "headers": {
+                "Authorization": "Bearer <ACCESS-TOKEN>"
+}
+            },
+        "response": {
+        "tracks":{
+            "album": {
+                "album_type": "album",
+                "artists": [
+                    {
+                        "external_urls": {
+                            "spotify": "https://open.spotify.com/artist/3WrFJ7ztbogyGnTHbHJFl2"
+                        },
+                        "href": "https://api.spotify.com/v1/artists/3WrFJ7ztbogyGnTHbHJFl2",
+                        "id": "3WrFJ7ztbogyGnTHbHJFl2",
+                        "name": "The Beatles",
+                        "type": "artist",
+                        "uri": "spotify:artist:3WrFJ7ztbogyGnTHbHJFl2"
+                    }
+                ],
+                "external_urls": {
+                    "spotify": "https://open.spotify.com/album/0ETFjACtuP2ADo6LFhL6HN"
+                },
+                "href": "https://api.spotify.com/v1/albums/0ETFjACtuP2ADo6LFhL6HN",
+                "id": "0ETFjACtuP2ADo6LFhL6HN",
+                "images": [
+                    {
+                        "url": "https://i.scdn.co/image/ab67616d0000b273dc30583ba717007b00cceb25",
+                        "height": 640,
+                        "width": 640
+                    },
+                    {
+                        "url": "https://i.scdn.co/image/ab67616d00001e02dc30583ba717007b00cceb25",
+                        "height": 300,
+                        "width": 300
+                    },
+                    {
+                        "url": "https://i.scdn.co/image/ab67616d00004851dc30583ba717007b00cceb25",
+                        "height": 64,
+                        "width": 64
+                    }
+                ],
+                "is_playable": true,
+                "name": "Abbey Road (Remastered)",
+                "release_date": "1969-09-26",
+                "release_date_precision": "day",
+                "total_tracks": 17,
+                "type": "album",
+                "uri": "spotify:album:0ETFjACtuP2ADo6LFhL6HN"
+            },
+            "artists": [
+                {
+                    "external_urls": {
+                        "spotify": "https://open.spotify.com/artist/3WrFJ7ztbogyGnTHbHJFl2"
+                    },
+                    "href": "https://api.spotify.com/v1/artists/3WrFJ7ztbogyGnTHbHJFl2",
+                    "id": "3WrFJ7ztbogyGnTHbHJFl2",
+                    "name": "The Beatles",
+                    "type": "artist",
+                    "uri": "spotify:artist:3WrFJ7ztbogyGnTHbHJFl2"
+                }
+            ],
+            "disc_number": 1,
+            "duration_ms": 185733,
+            "explicit": false,
+            "external_ids": {
+                "isrc": "GBAYE0601696"
+            },
+            "external_urls": {
+                "spotify": "https://open.spotify.com/track/6dGnYIeXmHdcikdzNNDMm2"
+            },
+            "href": "https://api.spotify.com/v1/tracks/6dGnYIeXmHdcikdzNNDMm2",
+            "id": "6dGnYIeXmHdcikdzNNDMm2",
+            "is_local": false,
+            "is_playable": true,
+            "name": "Here Comes The Sun - Remastered 2009",
+            "popularity": 83,
+            "preview_url": null,
+            "track_number": 7,
+            "type": "track",
+            "uri": "spotify:track:6dGnYIeXmHdcikdzNNDMm2"
+        }
+    }
+        },
+        "getAccessToken": {
+            "description": "retrieves an access token from spotify API",
+            "endpoint": "GET https://accounts.spotify.com/api/token",
+            "request":{
+                "url": "https://accounts.spotify.com/api/token",
+                "headers": {
+                "Authorization": "Basic MjA5Y2M4ZjAxM2NmNDkyNGEzNTY1MWVhNDBjZTI3MGU6NTYyM2RkZDA4MWQ5NDg2ZDhlMzU5NmMwYmVlNWI3ZDg="
+            }
+            },
+            "response": {
+                "access_token": "BQAKoAQM5YfzqQ8kGXdg4yqsi87LyBvcKHOZPLze3CCIo8HniECBifQhPVLX7Ah4ztnMEbAkbOzE9VTDmTr_wGxKpmD1sS-61X5pzcqxUBZMiaoe_7BseJ2v5S7s1JRBsWg7NZuc5vM",
+                "token_type": "Bearer",
+                "expires_in": 3600
+        }
+        }
+        }
+    }

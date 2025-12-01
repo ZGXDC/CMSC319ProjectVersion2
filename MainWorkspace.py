@@ -3,6 +3,7 @@ import os
 import base64
 import requests
 import random
+import json
 
 #METHOD getAccessToken
 # makes a post request to Spotify Web API url https://accounts.spotify.com/api/token
@@ -22,7 +23,8 @@ def getAccessToken():
     headers = {
         "Authorization": f"Basic {b64AuthString}",
     }
-   
+    print("URL:", url)
+    print("Headers:", json.dumps(headers, indent=4))
     data = {
         "grant_type": "client_credentials"
     }
@@ -34,6 +36,7 @@ def getAccessToken():
         print("ERROR: ", e)
         print(response.text)
         
+    print(json.dumps(response.json(), indent=4))
     if response.status_code !=200:
         raise Exception(response.status_code)
    
@@ -57,7 +60,6 @@ def getArtistIDAndGenre(name):
         "type" : "artist",
         "limit": 1
     }
-
     #Makes a GET request to search url and returns a Response object with HTTP 
     try:
         response = requests.get(url, headers=headers, params=params)
@@ -70,7 +72,6 @@ def getArtistIDAndGenre(name):
    
     #puts json into python dictionary
     jsonData = response.json()
-    
     items = jsonData.get("artists", {}).get("items", [])
     
     #If the input artist has no matches, none is returned
@@ -130,6 +131,7 @@ def getTopTracks(dictionary, token):
         
         url = "https://api.spotify.com/v1/artists/" + id + "/top-tracks?market=US"
         headers = {"Authorization": f"Bearer {token}"}
+        
         
         try:
             response = requests.get(url, headers=headers)
@@ -252,32 +254,31 @@ def printPlaylist(playlist, order):
         print(track["name"], "--", order[i])
         i+=1
 
+# validMood = False
+# print("Welcome to Spotify Mood Playlist Generator!")
+# print("\nPlaylists can be built from the following moods: happy, sad, angry, chill")
 
-validMood = False
-print("Welcome to Spotify Mood Playlist Generator!")
-print("\nPlaylists can be built from the following moods: happy, sad, angry, chill")
+# #Inputting mood
+# while(validMood==False):
+#     print("\nPlease input a mood (ex: happy): ")
+#     userMood = input()
 
-#Inputting mood
-while(validMood==False):
-    print("\nPlease input a mood (ex: happy): ")
-    userMood = input()
+#     if userMood.strip() != "" and getGenreFromMood(userMood)!=None:
+#         validMood = True
 
-    if userMood.strip() != "" and getGenreFromMood(userMood)!=None:
-        validMood = True
+# print("\nPlease input a list of five favorite music artists:\nInput your artist after the colon (ex. Artist 1: Nirvana)")
+# artistInput = 0
+# userFavArtists = []
+# while(artistInput<5):
+#     print("Artist",artistInput+1, ": ", end='')
+#     userFavArtists.append(input())
+#     artistInput+=1
 
-print("\nPlease input a list of five favorite music artists:\nInput your artist after the colon (ex. Artist 1: Nirvana)")
-artistInput = 0
-userFavArtists = []
-while(artistInput<5):
-    print("Artist",artistInput+1, ": ", end='')
-    userFavArtists.append(input())
-    artistInput+=1
+# infoList = createArtistInfoList(userFavArtists)
+# moodGenres = getGenreFromMood(userMood)
+# includedArtists = artistsToInclude(moodGenres, infoList)
+# topTracks = getTopTracks(includedArtists, getAccessToken())
+# playlist, artistOrder = buildPlaylist(topTracks)
+# printPlaylist(playlist, artistOrder)
 
-infoList = createArtistInfoList(userFavArtists)
-moodGenres = getGenreFromMood(userMood)
-includedArtists = artistsToInclude(moodGenres, infoList)
-topTracks = getTopTracks(includedArtists, getAccessToken())
-playlist, artistOrder = buildPlaylist(topTracks)
-printPlaylist(playlist, artistOrder)
-
-
+print(getAccessToken())
