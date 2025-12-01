@@ -37,7 +37,7 @@ Includes a series of unit tests for methods (services) that do not rely on HTTP 
 Integration Tests are written for methods use HTTP requests since they rely on the workings of an external API. In addition, integeration tests are provided for methods that call another method internally. 
 
 # OpenAPIDocs
-openapi.json provides examples requests and responses to the Spotify API in json format. It provides examples requests and responses for three methods (services) that call the Spotify API which includes getting an access token, getting top tracks, and getting artist id/genres. 
+openapi.json provides OpenAPI doc-style example requests and responses to the Spotify API in json format. It provides examples requests and responses for three methods (services) that call the Spotify API which includes getting an access token, getting top tracks, and getting artist id/genres. 
 
 HTTP GET requests are sent to the following urls:
 - https://api.spotify.com/v1/search

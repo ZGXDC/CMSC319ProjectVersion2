@@ -254,31 +254,32 @@ def printPlaylist(playlist, order):
         print(track["name"], "--", order[i])
         i+=1
 
-# validMood = False
-# print("Welcome to Spotify Mood Playlist Generator!")
-# print("\nPlaylists can be built from the following moods: happy, sad, angry, chill")
+# ------------------------------------------------------------------------------------
+validMood = False
+print("Welcome to Spotify Mood Playlist Generator!")
+print("\nPlaylists can be built from the following moods: happy, sad, angry, chill")
 
-# #Inputting mood
-# while(validMood==False):
-#     print("\nPlease input a mood (ex: happy): ")
-#     userMood = input()
+#Inputting mood
+while(validMood==False):
+    print("\nPlease input a mood (ex: happy): ")
+    userMood = input()
 
-#     if userMood.strip() != "" and getGenreFromMood(userMood)!=None:
-#         validMood = True
+    if userMood.strip() != "" and getGenreFromMood(userMood)!=None:
+        validMood = True
 
-# print("\nPlease input a list of five favorite music artists:\nInput your artist after the colon (ex. Artist 1: Nirvana)")
-# artistInput = 0
-# userFavArtists = []
-# while(artistInput<5):
-#     print("Artist",artistInput+1, ": ", end='')
-#     userFavArtists.append(input())
-#     artistInput+=1
+#Getting Artists
+print("\nPlease input a list of five favorite music artists:\nInput your artist after the colon (ex. Artist 1: Nirvana)")
+artistInput = 0
+userFavArtists = []
+while(artistInput<5):
+    print("Artist",artistInput+1, ": ", end='')
+    userFavArtists.append(input())
+    artistInput+=1
 
-# infoList = createArtistInfoList(userFavArtists)
-# moodGenres = getGenreFromMood(userMood)
-# includedArtists = artistsToInclude(moodGenres, infoList)
-# topTracks = getTopTracks(includedArtists, getAccessToken())
-# playlist, artistOrder = buildPlaylist(topTracks)
-# printPlaylist(playlist, artistOrder)
+infoList = createArtistInfoList(userFavArtists)
+moodGenres = getGenreFromMood(userMood)
+includedArtists = artistsToInclude(moodGenres, infoList)
+topTracks = getTopTracks(includedArtists, getAccessToken())
+playlist, artistOrder = buildPlaylist(topTracks)
+printPlaylist(playlist, artistOrder)
 
-print(getAccessToken())
