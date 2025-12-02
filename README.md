@@ -1,13 +1,13 @@
 # Welcome to Spotify Mood Playlist Generator!
 
-This is microservices project written in Python as part of the CMSC 319 Software Engineering Concepts Class. This project ideally generates a playlist for users based on user-input mood and artists. It access the Spotify Web API and matches songs based on user input, ultimately outputting them for the user. 
+This is microservices project written in Python as part of the CMSC 319 Software Engineering Concepts Class. This project ideally generates a playlist for users based on user-input mood and artists. It accesses the Spotify Web API and matches songs based on user input, ultimately outputting them for the user. 
 The program is built in one main program titled MainWorkspace.py. This program has a series of methods that attempt to perform just one function, acting as the services aspect of the microservices project. 
 
 ## Features 
 - Input a mood and favorite artists
 - Maps mood to a list of genres and genres to favorite artists
 - Selects popular songs from artists
-- Outputs the list of tracks
+- Outputs the list of tracks and prints to a file
 
 ## Run Instructions
 1. Clone the Repository
@@ -34,18 +34,18 @@ Follow these instructions to create a .env file:
 testing.py provides a suite of unit tests and integration tests for the code. 
 Includes a series of unit tests for methods (services) that do not rely on HTTP requests or other methods. 
 
-Integration Tests are written for methods use HTTP requests since they rely on the workings of an external API. In addition, integration tests are provided for methods that call another method internally. 
+Integration Tests are written for methods using HTTP requests since they rely on the workings of an external API. In addition, integration tests are provided for methods that call another method internally. 
 
 ## OpenAPIDocs
 openapi.json provides OpenAPI doc-style example requests and responses to the Spotify API in json format. It provides examples requests and responses for three methods (services) that call the Spotify API which includes getting an access token, getting top tracks, and getting artist id/genres. 
 
-HTTP GET requests are sent to the following urls:
+HTTP GET/POST requests are sent to the following urls:
 - https://api.spotify.com/v1/search
 - https://api.spotify.com/v1/artists/3WrFJ7ztbogyGnTHbHJFl2/top-tracks?market=US
 - https://accounts.spotify.com/api/token
 
 ## Design Decisions
-It was decided that at most three songs are included in the final playlist from each artist that matches the mood genres. In addition, any artist with no listed genre is labeled with "unknown" and included in the final playlist. Another design decision is that at most three songs are chosen at random from each valid artist's top tracks to be put into the final playlist.
+It was decided that at most three songs are included in the final playlist from each artist who matches the mood genres. In addition, any artist with no listed genre is labeled with "unknown" and included in the final playlist. Another design decision is that at most three songs are chosen at random from each valid artist's top tracks to be put into the final playlist.
 
 ## Known Issues
 The playlist length ranges anywhere from 3 to 15 songs, depending on the number of valid artists and user input. Although checks were implemented, playlists may output duplicate songs or more than 3 songs per artists. 
